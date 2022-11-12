@@ -10,8 +10,18 @@ def show_image(imgFile):
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
+def show_image_plt(M):
+    # Mengembalikan display image dari Matrix input
+    # Kamus
+    # Algoritma
+    M = M.reshape(256,256) 
+    # Reshape diperlukan jika matriks masih berukuran (65536, 1)
+    img = plt.imshow(M)
+    img.set_cmap('gray')
+    plt.axis('off')
+    plt.show
+
 def norm(img):
-    # return (img - np.amin(img))*(255/(np.amax(img)-np.amin(img)))
     return (img/255)
 
 # ================================================= #
@@ -48,7 +58,7 @@ def image_to_matrix(dirname):
     P = list_files(dirname, ".jpg")
     for data in P:
         # Konversi image ke matrix
-        img = cv2.imread(data, 0)
+        img = norm(cv2.imread(data, 0))
         resized = cv2.resize(img, (256, 256))
         flat = resized.flatten()  
         if first:
@@ -72,17 +82,6 @@ def average_matrix(M):
         avg = count / M.shape[1]
         MOut = np.append(MOut, avg)
     return MOut
-
-def show_image_mtx(M):
-    # Mengembalikan display image dari Matrix input
-    # Kamus
-    # Algoritma
-    M = M.reshape(256,256) 
-    # Reshape diperlukan jika matriks masih berukuran (65536, 1)
-    img = plt.imshow(M)
-    img.set_cmap('gray')
-    plt.axis('off')
-    plt.show
 
 
 
