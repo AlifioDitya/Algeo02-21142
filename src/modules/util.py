@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import numpy as np
 import ZipFile
 import cv2
@@ -71,10 +72,17 @@ def average_matrix(M):
         MOut = np.append(MOut, avg)
     return MOut
 
-def show_matrix_as_img(M):
+def show_image_mtx(M):
     # Mengembalikan display image dari Matrix input
     # Kamus
     # Algoritma
+    M = M.reshape(256,256) 
+    # Reshape diperlukan jika matriks masih berukuran (65536, 1)
+    img = plt.imshow(M)
+    img.set_cmap('gray')
+    plt.axis('off')
+    plt.show
+
 
 
 
