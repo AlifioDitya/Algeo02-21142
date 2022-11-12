@@ -24,3 +24,4 @@ def image_matrix(dirname):
                     first = False
                 else:
                     mtx = np.hstack((mtx, flat.reshape(len(flat), 1)))
+    return mtx
