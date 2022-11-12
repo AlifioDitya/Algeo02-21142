@@ -15,6 +15,15 @@ def covariance(matrix):
     A = deviation(matrix)
     return np.transpose(A) @ A
 
-# arr = np.array([[1, 3], [3, 1]])
-# val, vec = np.linalg.eig(arr)
-# print(vec)
+def eigenface(matrix):
+    A = deviation(matrix)
+    val, vec = np.linalg.eig(covariance(matrix))
+    arr = np.array([[]])
+    first = True
+    for i in range(len(vec[0])):
+        if first:
+            arr = np.array([A @ vec[:, i]]).transpose()
+            first = False
+        else:
+            arr = np.hstack((arr, np.array([A @ vec[:, i]]).transpose()))
+    return arr

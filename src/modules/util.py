@@ -9,7 +9,8 @@ def show_image(imgFile):
     cv2.destroyAllWindows()
 
 def norm(img):
-    return (img - np.amin(img))*(255/(np.amax(img)-np.amin(img)))
+    # return (img - np.amin(img))*(255/(np.amax(img)-np.amin(img)))
+    return (img/255)
 
 def image_matrix(dirname):
 # Reads all .jpg files in a directory and converts them into image vectors, stored in a matrix
@@ -20,11 +21,11 @@ def image_matrix(dirname):
             if file.endswith(".jpg"):
                 filename = os.path.join(root, file)
                 img = norm(cv2.imread(filename, 0))
-                resized = norm(cv2.resize(img, (256, 256)))
+                resized = (cv2.resize(img, (256, 256)))
                 flat = resized.flatten()
                 if first:
                     mtx = flat.reshape(len(flat), 1)
                     first = False
                 else:
                     mtx = np.hstack((mtx, flat.reshape(len(flat), 1)))
-    return mtx
+    return mtx  
