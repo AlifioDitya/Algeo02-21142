@@ -11,12 +11,23 @@ def extract(filename):
     # Notifikasi extracting berhasil
     print('Done extracting!')
 
+def norm(img):
+    return (img - np.amin(img))*(255/(np.amax(img)-np.amin(img)))
+
 def list_files(filepath, filetype):
     # Mengembalikan array berisi pathfiles
     # Kamus
     paths = []
     # Algoritma
     for root, dirs, files in os.walk(filepath):
+def norm(img):
+    return (img - np.amin(img))*(255/(np.amax(img)-np.amin(img)))
+
+def image_matrix(dirname):
+# Reads all .jpg files in a directory and converts them into image vectors, stored in a matrix
+    mtx = np.array([])
+    first = True
+    for root, dirs, files in os.walk(dirname):
         for file in files:
             if file.lower().endswith(filetype.lower()):
                 paths.append(os.path.join(root, file))
@@ -33,8 +44,8 @@ def image_to_matrix(dirname):
     P = list_files(dirname, ".jpg")
     for data in P:
         # Konversi image ke matrix
-        img = cv2.imread(data, 0)
-        resized = cv2.resize(img, (256, 256))
+        img = norm(cv2.imread(data, 0))
+        resized = norm(cv2.resize(img, (256, 256)))
         flat = resized.flatten()  
         if first:
             M = flat.reshape(len(flat), 1)
