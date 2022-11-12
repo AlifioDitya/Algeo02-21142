@@ -1,5 +1,4 @@
 import numpy as np
-import util as ut
 
 def average_face(matrix):
     avgFace = np.mean(matrix, axis=1)
