@@ -27,3 +27,7 @@ def eigenface(matrix):
             arr = np.hstack((arr, np.array([A @ vec[:, i]]).transpose()))
     return arr
 
+def euc_distance(v1, v2):
+    diff = v1 - v2
+    product = np.dot(diff.T, diff)
+    return np.sqrt(product)
