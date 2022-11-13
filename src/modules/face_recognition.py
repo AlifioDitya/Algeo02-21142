@@ -26,3 +26,4 @@ def eigenface(matrix):
         else:
             arr = np.hstack((arr, np.array([A @ vec[:, i]]).transpose()))
     return arr
+
