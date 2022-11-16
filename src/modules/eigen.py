@@ -27,7 +27,7 @@ def eig(mCov):
 
     # loop sebanyak n matrixnya
     i = 0
-    while (i < 120):
+    while (i < 500):
         Q,R = qrDecomp(mCov)
         X = X @ Q
         mCov = R @ Q   
