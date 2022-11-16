@@ -13,7 +13,7 @@ def deviation(matrix):
 
 def covariance(matrix):
     A = deviation(matrix)
-    return (1/(len(A[0]))) * (np.transpose(A) @ A)
+    return (np.transpose(A) @ A)
 
 def eigenface(matrix, rank):
     if rank > len(matrix[0]) or rank < 0:
