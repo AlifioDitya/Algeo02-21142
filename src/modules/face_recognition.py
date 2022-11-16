@@ -1,4 +1,5 @@
 import numpy as np
+import modules.eigen as eg
 
 def average_face(matrix):
     avgFace = np.mean(matrix, axis=1)
@@ -12,20 +13,20 @@ def deviation(matrix):
 
 def covariance(matrix):
     A = deviation(matrix)
-    return np.transpose(A) @ A
+    return (1/(len(A[0]))) * (np.transpose(A) @ A)
 
-def eigenface(matrix):
-    A = deviation(matrix)
-    val, vec = np.linalg.eig(covariance(matrix))
-    arr = np.array([[]])
-    first = True
-    for i in range(len(vec[0])):
-        if first:
-            arr = np.array([A @ vec[:, i]]).transpose()
-            first = False
-        else:
-            arr = np.hstack((arr, np.array([A @ vec[:, i]]).transpose()))
-    return arr
+def eigenface(matrix, rank):
+    if rank > len(matrix[0]) or rank < 0:
+        rank = len(matrix[0])
+    
+    A = deviation(matrix)  # training_set - avg_face
+    val, vec = eg.eig(covariance(matrix))  # eigenvectors sorted and normalized
+
+    arr = []
+    for i in range(rank):
+        arr.append((A @ vec[:, i])/np.linalg.norm(A @ vec[:, i]))
+    
+    return np.array(arr).T
 
 def euc_distance(v1, v2):
     diff = v1 - v2

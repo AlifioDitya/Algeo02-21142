@@ -23,6 +23,7 @@ def show_image_plt(M):
 
 def norm(img):
     return (img/255)
+    # return (img-np.amin(img)) * (255/(np.amax(img)-np.amin(img)))
 
 # ================================================= #
 # FILE PROCESSING #
