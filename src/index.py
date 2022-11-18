@@ -22,9 +22,3 @@ def index(dataset_file, test_file):
     test_weight = eigen_face.T @ (test_img - average_face(training_set))
 
     return recognize(training_set, test_weight, training_weight)
-
-if __name__ == "__main__":
-    dataset_file = os.path.join(ROOT_DIR, "training_sets.zip")
-    test_file = os.path.join(ROOT_DIR, "test_sets/Alexandra Daddario/Alexandra Daddario1.jpg")
-    result = index(dataset_file, test_file)
-    show_image(result[:, 0].reshape(256, 256))
