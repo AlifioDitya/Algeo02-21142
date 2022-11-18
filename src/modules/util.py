@@ -1,3 +1,4 @@
+from modules.config import ROOT_DIR
 import matplotlib.pyplot as plt
 import numpy as np
 from zipfile import ZipFile
@@ -32,7 +33,7 @@ def norm(img):
 def extract(filename):
     # Unzipping zip files menjadi folder
     with ZipFile(filename, 'r') as zip:
-        zip.extractall()
+        zip.extractall(os.path.join(ROOT_DIR, "output"))
 
     # Notifikasi extracting berhasil
     print('Done extracting!')
@@ -69,23 +70,3 @@ def image_to_matrix(dirname):
             M = np.hstack((M, flat.reshape(len(flat), 1)))
     
     return(M)
-
-def average_matrix(M):
-    # Mengembalikan rata-rata semua matrix
-    # Kamus
-    MOut = np.array([])
-
-    # Algoritma
-    for i in range(0, M.shape[0]):
-        count = 0
-        for j in range(0, M.shape[1]):
-            count += M[i][j]
-        avg = count / M.shape[1]
-        MOut = np.append(MOut, avg)
-    return MOut
-
-
-
-
-    
-

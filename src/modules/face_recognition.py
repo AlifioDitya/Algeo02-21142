@@ -32,3 +32,13 @@ def euc_distance(v1, v2):
     diff = v1 - v2
     product = np.dot(diff.T, diff)
     return np.sqrt(product)
+
+def recognize(training_set, test_weight, training_weight):
+    d = np.array([euc_distance(test_weight[:, 0], training_weight[:, i]) for i in range(len(training_weight[0]))])
+    idx = np.where(d == np.amin(d))
+    identified = training_set[:, idx]
+    toll = 0.5*np.amax(d)
+    if np.amin(d) < toll:
+        return (True, identified.reshape(256, 256))
+    else:
+        return (False, identified.reshape(256, 256))
