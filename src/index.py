@@ -1,5 +1,5 @@
 from modules.face_recognition import (eigenface, average_face, deviation, covariance, recognize)
-from modules.util import (extract, image_to_matrix, show_image)
+from modules.util import (extract, image_to_matrix, show_image, fixBadZipfile)
 from modules.config import ROOT_DIR
 import os
 import cv2
@@ -12,8 +12,10 @@ import cv2
 # Filename of result file
 
 def index(dataset_file, test_file):
+    # print(dataset_file)
+    fixBadZipfile(dataset_file)
     extract(dataset_file)
-    
+    # training_set = image_to_matrix(dataset_file)
     training_set = image_to_matrix(os.path.join(ROOT_DIR, "extracted"))
     test_img = image_to_matrix(test_file)
 

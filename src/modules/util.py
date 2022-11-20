@@ -38,6 +38,21 @@ def extract(filename):
     # Notifikasi extracting berhasil
     print('Done extracting!')
 
+# From stackoverflow to fixBadZipFiles
+# https://stackoverflow.com/questions/4923142/zipfile-cant-handle-some-type-of-zip-data
+
+def fixBadZipfile(zipFile):  
+     f = open(zipFile, 'r+b')  
+     data = f.read()  
+     pos = data.find(b'\x50\x4b\x05\x06') # End of central directory signature  
+     if (pos > 0):  
+         f.seek(pos + 22)   # size of 'ZIP end of central directory record' 
+         f.truncate()  
+         f.close()  
+     else:  
+        pass
+         # raise error, file is truncated 
+
 def list_files(filepath, filetype):
     # Mengembalikan array berisi pathfiles
     # Kamus
