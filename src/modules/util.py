@@ -33,7 +33,7 @@ def norm(img):
 def extract(filename):
     # Unzipping zip files menjadi folder
     with ZipFile(filename, 'r') as zip:
-        zip.extractall(os.path.join(ROOT_DIR, "output"))
+        zip.extractall(os.path.join(ROOT_DIR, "extracted"))
 
     # Notifikasi extracting berhasil
     print('Done extracting!')

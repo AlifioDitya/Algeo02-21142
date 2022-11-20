@@ -1,5 +1,8 @@
 import numpy as np
 import modules.eigen as eg
+from modules.config import ROOT_DIR
+import cv2
+import os
 
 def average_face(matrix):
     avgFace = np.mean(matrix, axis=1)
@@ -37,8 +40,11 @@ def recognize(training_set, test_weight, training_weight):
     d = np.array([euc_distance(test_weight[:, 0], training_weight[:, i]) for i in range(len(training_weight[0]))])
     idx = np.where(d == np.amin(d))
     identified = training_set[:, idx]
-    toll = 0.75*np.amax(d)
+    output_dir = os.path.join(ROOT_DIR, "output")
+    os.mkdir(output_dir)
+    cv2.imwrite(os.path.join(output_dir, "output.jpg"), identified.reshape(256, 256))
+    toll = 0.5*np.amax(d)
     if np.amin(d) < toll:
-        return (True, identified.reshape(256, 256))
+        return (True, os.path.join(output_dir, "output.jpg"))
     else:
-        return (False, identified.reshape(256, 256))
+        return (False, os.path.join(output_dir, "output.jpg"))

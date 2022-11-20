@@ -14,7 +14,7 @@ import cv2
 def index(dataset_file, test_file):
     extract(dataset_file)
     
-    training_set = image_to_matrix(os.path.join(ROOT_DIR, "output"))
+    training_set = image_to_matrix(os.path.join(ROOT_DIR, "extracted"))
     test_img = image_to_matrix(test_file)
 
     eigen_face = eigenface(training_set, len(training_set[0]))
@@ -22,5 +22,3 @@ def index(dataset_file, test_file):
     test_weight = eigen_face.T @ (test_img - average_face(training_set))
 
     return recognize(training_set, test_weight, training_weight)
-    # returning (true, identified)
-    # returning false, identified reshape
