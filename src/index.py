@@ -22,3 +22,5 @@ def index(dataset_file, test_file):
     test_weight = eigen_face.T @ (test_img - average_face(training_set))
 
     return recognize(training_set, test_weight, training_weight)
+    # returning (true, identified)
+    # returning false, identified reshape
