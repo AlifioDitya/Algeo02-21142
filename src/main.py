@@ -7,11 +7,10 @@ from PIL import ImageTk, Image
 from tkinter import filedialog
 from time import sleep
 from time import *             #meaning from time import EVERYTHING
-import time
 from datetime import timedelta
 
 # Algorithm
-# from index import *
+from index import *
 from webcam import webcamFunc
 
 # VARIABEL GLOBAL
@@ -21,6 +20,7 @@ imagetest_dir = ""
 imagetest_filename = "No File Choosen"  
 imagetest_result = "" 
 exec_time = "" 
+isCameraOpen = False
 WIDTH, HEIGHT = 1280, 720
 
 root = tk.Tk()
@@ -28,17 +28,22 @@ root.geometry('{}x{}'.format(WIDTH, HEIGHT))
 root.title("Face Recognition")
 root.resizable(False, False) 
 
+# BONUS
+cascPath = "haarcascade_frontalface_default.xml"
+faceCascade = cv2.CascadeClassifier(cascPath)
+
 # IMPORT PICTURES
-bg = ImageTk.PhotoImage(Image.open("./assets/background.png").resize((WIDTH,HEIGHT)))
-title_asset = ImageTk.PhotoImage(Image.open("./assets/Image_Robot.png").resize((200,200)))
-button_choose = PhotoImage(file = "./assets/Button_ChooseFile.png")
-button_choose_h = PhotoImage(file = "./assets/Button_ChooseFile_hover.png")
-button_choose_c = PhotoImage(file = "./assets/Button_ChooseFile_clicked.png")
-button_run = PhotoImage(file = "./assets/Button_RunResult.png")
-button_run_c = PhotoImage(file = "./assets/Button_RunResult_clicked.png")
-button_camera = PhotoImage(file = "./assets/camera.png")
-button_camera_h = PhotoImage(file = "./assets/camera_h.png")
-img_none = ImageTk.PhotoImage(Image.open("./assets/img_placeholder.png").resize((300,300)))
+     
+bg = ImageTk.PhotoImage(Image.open(os.path.join(ROOT_DIR, "assets/background.png")).resize((WIDTH,HEIGHT)))
+title_asset = ImageTk.PhotoImage(Image.open(os.path.join(ROOT_DIR, "assets/Image_Robot.png")).resize((200,200)))
+button_choose = PhotoImage(file = (os.path.join(ROOT_DIR, "assets/Button_ChooseFile.png")))
+button_choose_h = PhotoImage(file = (os.path.join(ROOT_DIR, "assets/Button_ChooseFile_hover.png")))
+button_choose_c = PhotoImage(file = (os.path.join(ROOT_DIR, "assets/Button_ChooseFile_clicked.png")))
+button_run = PhotoImage(file = (os.path.join(ROOT_DIR, "assets/Button_RunResult.png")))
+button_run_c = PhotoImage(file = (os.path.join(ROOT_DIR, "assets/Button_RunResult_clicked.png")))
+button_camera = PhotoImage(file = (os.path.join(ROOT_DIR, "assets/camera.png")))
+button_camera_h = PhotoImage(file = (os.path.join(ROOT_DIR, "assets/camera_h.png")))
+img_none = ImageTk.PhotoImage(Image.open((os.path.join(ROOT_DIR, "assets/img_placeholder.png"))).resize((300,300)))
 
 # FUNCS
 def askopendataset():
@@ -72,6 +77,24 @@ def askopenfile():
     except AttributeError:
         pass
 
+def pass_cam_data():
+    global imagetest_dir
+    global imagetest_filename
+    global img_display
+    global photo_test
+    try:
+        # Menginput file
+        imagetest_dir = "hasilWebcam.jpg"
+        img_display = ImageTk.PhotoImage(Image.open(imagetest_dir).resize((300,300)))
+        imagetest_namefile = os.path.basename(imagetest_dir)
+        print(imagetest_dir)
+        # Config File
+        maincanvas.itemconfig(img_test, image=img_display)
+        maincanvas.itemconfig(testfile_text, text=imagetest_namefile)
+        
+    except AttributeError:
+        pass
+
 def runresult(event):
     global result_image
 
@@ -79,8 +102,8 @@ def runresult(event):
     isRecognized = False
 
     # main algorithm
-    isRecognized, matrix_result = index(filename_dir, dataset_dir)
-    matrix_result = asarray(matrix_result)
+    isRecognized, matrix_result = index(imagetest_dir, dataset_dir)
+    matrix_result = np.asarray(matrix_result)
     res_face = Image.fromarray(matrix_result).resize((300,300))
     res_image = ImageTk.PhotoImage(image=res_face)
     
@@ -105,6 +128,7 @@ def nonhover_choosedataset(event):
 def onclick_choosedataset(event):
     maincanvas.itemconfig(dataset_button, image=button_choose_c)
     askopendataset()
+
 # Bonus
 def onhover_cam(event):
     maincanvas.itemconfig(camera_button, image=button_camera_h)
@@ -112,7 +136,11 @@ def nonhover_cam(event):
     maincanvas.itemconfig(camera_button, image=button_camera)
 def onclick_cam(event):
     maincanvas.itemconfig(camera_button, image=button_camera_h)
+    isCameraOpen = True
     webcamFunc()
+    pass_cam_data()
+
+
 
 
 

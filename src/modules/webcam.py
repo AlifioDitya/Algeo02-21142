@@ -1,9 +1,11 @@
 import cv2
+import os
 from time import sleep
 
 # inspo: https://pythonprogramming.net/haar-cascade-face-eye-detection-python-opencv-tutorial/
 cascPath = "haarcascade_frontalface_default.xml"
-faceCascade = cv2.CascadeClassifier(cascPath)
+faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+ROOT_DIR = os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))
 
 webCam = cv2.VideoCapture(0)
 anterior = 0
@@ -82,4 +84,5 @@ def cropImg(foto):
 
 foto = Image.open(r"hasilWebcam.jpg")
 cropped = cropImg(foto)
-cropped.save("hasilWebcam.jpg")   
+
+cropped.save(os.path.join(ROOT_DIR, "hasilWebcam.jpg"))     

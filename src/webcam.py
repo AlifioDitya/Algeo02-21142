@@ -1,16 +1,17 @@
 import cv2
 from time import sleep
-
+import os
 from PIL import Image
 import numpy as np
 
 
 def webcamFunc():
 # inspo: https://pythonprogramming.net/haar-cascade-face-eye-detection-python-opencv-tutorial/
-    cascPath = "haarcascade_frontalface_default.xml"
-    faceCascade = cv2.CascadeClassifier(cascPath)
-
     webCam = cv2.VideoCapture(0)
+    # cascPath = "haarcascade_frontalface_default.xml"
+    faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+    ROOT_DIR = os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))
+
 
     while True:
         if not webCam.isOpened():
@@ -86,5 +87,5 @@ def webcamFunc():
 
     foto = Image.open(r"hasilWebcam.jpg")
     cropped = cropImg(foto)
-    cropped.save("hasilWebcam.jpg")   
+    cropped.save(os.path.join(ROOT_DIR, "hasilWebcam.jpg"))    
 
