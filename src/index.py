@@ -31,7 +31,7 @@ def index(dataset, test, isDatasetZip=True):
         output_dir = os.path.join(ROOT_DIR, "../out/output")
         if not os.path.exists(output_dir):
             os.mkdir(output_dir)
-        plt.imsave(os.path.join(output_dir, "output.jpg"), identified, cmap="grey")
+        plt.imsave(os.path.join(output_dir, "output.jpg"), identified, cmap="gray")
         return (True, os.path.join(output_dir, "output.jpg"))
     else:
         return(False, test)
