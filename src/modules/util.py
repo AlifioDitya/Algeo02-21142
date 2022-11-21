@@ -4,6 +4,7 @@ import numpy as np
 from zipfile import ZipFile
 import cv2
 import os
+import shutil
 
 def show_image(imgFile):
 # Shows image on GUI
@@ -32,8 +33,11 @@ def norm(img):
 
 def extract(filename):
     # Unzipping zip files menjadi folder
+    dirname = os.path.join(ROOT_DIR, "../out/extracted")
+    if os.path.exists(dirname):
+        shutil.rmtree(dirname)
     with ZipFile(filename, 'r') as zip:
-        zip.extractall(os.path.join(ROOT_DIR, "../bin/extracted"))
+        zip.extractall(dirname)
 
     # Notifikasi extracting berhasil
     print('Done extracting!')

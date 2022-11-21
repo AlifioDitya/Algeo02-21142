@@ -4,6 +4,7 @@ from modules.config import ROOT_DIR
 import matplotlib.pyplot as plt
 import os
 import numpy as np
+import cv2
 
 def index(dataset, test, isDatasetZip=True):
 # Face recognition algorithm
@@ -12,7 +13,7 @@ def index(dataset, test, isDatasetZip=True):
     if isDatasetZip:
         fixBadZipfile(dataset)
         extract(dataset)
-        dataset = os.path.join(ROOT_DIR, "../bin/extracted")
+        dataset = os.path.join(ROOT_DIR, "../out/extracted")
 
     training_set = image_to_matrix(dataset)
     eigen_face = eigenface(training_set, len(training_set[0]))
@@ -26,11 +27,11 @@ def index(dataset, test, isDatasetZip=True):
     toll = 0.75*np.amax(d)
     if np.amin(d) < toll:
         idx = np.where(d == np.amin(d))
-        identified = training_set[:, idx]
-        output_dir = os.path.join(ROOT_DIR, "../output")
+        identified = training_set[:, idx].reshape(256, 256)
+        output_dir = os.path.join(ROOT_DIR, "../out/output")
         if not os.path.exists(output_dir):
             os.mkdir(output_dir)
-        plt.imsave(os.path.join(output_dir, "output.jpg"), identified.reshape(256, 256), cmap="gray")
+        plt.imsave(os.path.join(output_dir, "output.jpg"), identified, cmap="grey")
         return (True, os.path.join(output_dir, "output.jpg"))
     else:
         return(False, test)
