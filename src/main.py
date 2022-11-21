@@ -23,6 +23,7 @@ imagetest_result = ""
 exec_time = "" 
 isCameraOpen = False
 isDataset = False
+isDatasetCached = False
 WIDTH, HEIGHT = 1280, 720
 
 root = tk.Tk()
@@ -58,15 +59,18 @@ def askopendataset():
     global training_weight
     global eigen_face
 
+    global exec_time
+    exec_time = ""
+
     try:
         # Menginput file
         dataset_dir = filedialog.askopenfilename() # filetypes=[('Zip File', '*.zip')])
         dataset_filename = os.path.basename(dataset_dir)
         isDataset = True
-        training_set, training_weight, eigen_face = index(dataset_dir, True)
-
+        
         # Config File
         maincanvas.itemconfig(dataset_text, text=dataset_filename)
+       
         
     except AttributeError:
         pass
@@ -75,14 +79,16 @@ def askopenfile():
     global imagetest_dir
     global imagetest_filename
     global img_display
-
+    
     try:
         # Menginput file
         imagetest_dir = filedialog.askopenfilename(filetypes=[('JPG File', '*.jpg')])
         img_display = ImageTk.PhotoImage(Image.open(imagetest_dir).resize((300,300)))
         imagetest_namefile = os.path.basename(imagetest_dir)
-        print(imagetest_dir)
+        # print(imagetest_dir)
         # Config File
+        if (isDataset):
+            maincanvas.itemconfig(result_button, image=button_run)
         maincanvas.itemconfig(img_test, image=button_run)
         maincanvas.itemconfig(img_test, image=img_display)
         maincanvas.itemconfig(testfile_text, text=imagetest_namefile)
@@ -99,7 +105,9 @@ def pass_cam_data():
         imagetest_dir = "hasilWebcam.jpg"
         img_display = ImageTk.PhotoImage(Image.open(imagetest_dir).resize((300,300)))
         imagetest_namefile = os.path.basename(imagetest_dir)
-        print(imagetest_dir)
+        
+        if (isDataset):
+            maincanvas.itemconfig(result_button, image=button_run)
         # Config File
         maincanvas.itemconfig(img_test, image=img_display)
         maincanvas.itemconfig(testfile_text, text=imagetest_namefile)
@@ -113,11 +121,20 @@ def runresult():
     global imagetest_dir
     global dataset_dir
     global res_image
+    global isDatasetCached
 
     global training_set
     global training_weight
     global eigen_face
 
+    start_time =time.time()
+
+    if (not(isDatasetCached)):   
+        training_set, training_weight, eigen_face = index(dataset_dir, True)
+        isDatasetCached = True
+    else:
+        maincanvas.itemconfig(result_button, image=button_run)
+        
     maincanvas.itemconfig(result_button, image=button_run_c)
     isRecognized = False
 
@@ -129,8 +146,10 @@ def runresult():
         # print( int(idx_filename[0]))
         isRecognized, imageresult_dir, idx_filename = recognize(imagetest_dir, training_set, training_weight, eigen_face)
         list_of_files = list_files(os.path.join(ROOT_DIR, "../out/extracted"), ".jpg")
-
         res_image =  ImageTk.PhotoImage(Image.open(imageresult_dir).resize((300,300)))
+
+        end_time = time.time()
+        exec_time = round(end_time - start_time, 3)
         
         # Item Configs
         if (isRecognized):
@@ -138,8 +157,10 @@ def runresult():
             imagetest_result = os.path.basename(list_of_files[idx])
             maincanvas.itemconfig(result_image, image=res_image)
             maincanvas.itemconfig(result_namefile, text=imagetest_result)
+            maincanvas.itemconfig(elapsed, text=exec_time)
         else:
             maincanvas.itemconfig(result_namefile, text="Tidak dapat teridentifikasi")
+            maincanvas.itemconfig(elapsed, text=exec_time)
 
 # DECORATION
 def onhover_choosefile(event):
@@ -173,6 +194,8 @@ def onhover_cam(event):
 def nonhover_cam(event):
     maincanvas.itemconfig(camera_button, image=button_camera)
 def onclick_cam(event):
+    global isCameraOpen
+
     maincanvas.itemconfig(camera_button, image=button_camera_h)
     isCameraOpen = True
     webcamFunc()
@@ -231,7 +254,7 @@ maincanvas.create_text(610, 223, anchor = W, text="Test Result", font=(varfont, 
 img_test = maincanvas.create_image(513, 250, image = imagetest_dir, anchor = "nw")
 
 maincanvas.create_text(513, 615, anchor = W, text="Execution Time:", font=(varfont, 22))
-elapsed = maincanvas.create_text(680, 615, anchor = W, text=exec_time, font=(varfont, 22), fill="gray")
+elapsed = maincanvas.create_text(750, 615, anchor = W, text=exec_time, font=(varfont, 22), fill="gray")
 
 # RESULT
 res_image = img_none
