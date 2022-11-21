@@ -35,16 +35,3 @@ def euc_distance(v1, v2):
     diff = v1 - v2
     product = np.dot(diff.T, diff)
     return np.sqrt(product)
-
-def recognize(training_set, test_weight, training_weight):
-    d = np.array([euc_distance(test_weight[:, 0], training_weight[:, i]) for i in range(len(training_weight[0]))])
-    idx = np.where(d == np.amin(d))
-    identified = training_set[:, idx]
-    output_dir = os.path.join(ROOT_DIR, "output")
-    os.mkdir(output_dir)
-    cv2.imwrite(os.path.join(output_dir, "output.jpg"), identified.reshape(256, 256))
-    toll = 0.5*np.amax(d)
-    if np.amin(d) < toll:
-        return (True, os.path.join(output_dir, "output.jpg"))
-    else:
-        return (False, os.path.join(output_dir, "output.jpg"))

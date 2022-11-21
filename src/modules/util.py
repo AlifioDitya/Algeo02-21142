@@ -85,3 +85,10 @@ def image_to_matrix(dirname):
             M = np.hstack((M, flat.reshape(len(flat), 1)))
     
     return(M)
+
+
+def image_matrix_file(filename):
+    img = norm(cv2.imread(filename, 0))
+    resized = cv2.resize(img, (256, 256))
+    flat = resized.flatten()
+    return flat.reshape(len(flat), 1)
