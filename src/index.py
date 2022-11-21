@@ -1,5 +1,5 @@
 from modules.face_recognition import (eigenface, average_face, deviation, euc_distance)
-from modules.util import (extract, image_to_matrix, image_matrix_file, show_image, fixBadZipfile)
+from modules.util import (extract, image_to_matrix, image_matrix_file, fixBadZipfile)
 from modules.config import ROOT_DIR
 import matplotlib.pyplot as plt
 import os
@@ -12,6 +12,7 @@ def index(dataset, test, isDatasetZip=True):
     if isDatasetZip:
         fixBadZipfile(dataset)
         extract(dataset)
+        dataset = os.path.join(ROOT_DIR, "../bin/extracted")
 
     training_set = image_to_matrix(dataset)
     eigen_face = eigenface(training_set, len(training_set[0]))
