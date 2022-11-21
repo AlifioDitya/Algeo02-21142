@@ -11,6 +11,7 @@ from datetime import timedelta
 
 # Algorithm
 from index import *
+from modules.util import list_files
 from webcam import webcamFunc
 
 # VARIABEL GLOBAL
@@ -53,11 +54,17 @@ def askopendataset():
     global dataset_dir
     global isDataset
 
+    global training_set
+    global training_weight
+    global eigen_face
+
     try:
         # Menginput file
         dataset_dir = filedialog.askopenfilename() # filetypes=[('Zip File', '*.zip')])
         dataset_filename = os.path.basename(dataset_dir)
         isDataset = True
+        training_set, training_weight, eigen_face = index(dataset_dir, True)
+
         # Config File
         maincanvas.itemconfig(dataset_text, text=dataset_filename)
         
@@ -107,6 +114,10 @@ def runresult():
     global dataset_dir
     global res_image
 
+    global training_set
+    global training_weight
+    global eigen_face
+
     maincanvas.itemconfig(result_button, image=button_run_c)
     isRecognized = False
 
@@ -114,14 +125,19 @@ def runresult():
         maincanvas.itemconfig(result_namefile, text="Tidak dapat teridentifikasi")
     else:
         # main algorithm
-        isRecognized, imageresult_dir = index(dataset_dir, imagetest_dir, True)
-        imagetest_result = os.path.basename(imageresult_dir)
+        # isRecognized, imageresult_dir, idx_filename = index(dataset_dir, imagetest_dir, True)
+        # print( int(idx_filename[0]))
+        isRecognized, imageresult_dir, idx_filename = recognize(imagetest_dir, training_set, training_weight, eigen_face)
+        list_of_files = list_files(os.path.join(ROOT_DIR, "../out/extracted"), ".jpg")
+
         res_image =  ImageTk.PhotoImage(Image.open(imageresult_dir).resize((300,300)))
         
         # Item Configs
         if (isRecognized):
+            idx = int(idx_filename[0])
+            imagetest_result = os.path.basename(list_of_files[idx])
             maincanvas.itemconfig(result_image, image=res_image)
-            maincanvas.itemconfig(testfile_text, text=imagetest_result)
+            maincanvas.itemconfig(result_namefile, text=imagetest_result)
         else:
             maincanvas.itemconfig(result_namefile, text="Tidak dapat teridentifikasi")
 
@@ -192,7 +208,7 @@ result_button = maincanvas.create_image(100, 552, image = button_run_d, anchor =
 
 # Hasil Result
 maincanvas.create_text(107, 630, anchor = W, text="Result: ", font=(varfont, 18))
-result_namefile = maincanvas.create_text(170, 630, anchor = W, text=imagetest_result, font=(varfont, 18))
+result_namefile = maincanvas.create_text(200, 630, anchor = W, text=imagetest_result, font=(varfont, 18))
 
 # ==== EVENTS ===== #
 maincanvas.tag_bind(testfile_button, '<Enter>', onhover_choosefile)

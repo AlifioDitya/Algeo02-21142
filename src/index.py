@@ -6,10 +6,11 @@ import os
 import numpy as np
 import cv2
 
-def index(dataset, test, isDatasetZip=True):
+def index(dataset, isDatasetZip=True):
 # Face recognition algorithm
 # Extracts dataset if dataset is a zip file
 # Otherwise, dataset is a folder
+
     if isDatasetZip:
         fixBadZipfile(dataset)
         extract(dataset)
@@ -19,6 +20,9 @@ def index(dataset, test, isDatasetZip=True):
     eigen_face = eigenface(training_set, len(training_set[0]))
     training_weight = eigen_face.T @ deviation(training_set)
 
+    return(training_set, training_weight, eigen_face)
+
+def recognize(test, training_set, training_weight, eigen_face):
     test_img = image_matrix_file(test)
     diff = test_img - average_face(training_set)
     test_weight = eigen_face.T @ diff
@@ -31,7 +35,7 @@ def index(dataset, test, isDatasetZip=True):
         output_dir = os.path.join(ROOT_DIR, "../out/output")
         if not os.path.exists(output_dir):
             os.mkdir(output_dir)
-        plt.imsave(os.path.join(output_dir, "output.jpg"), identified, cmap="grey")
-        return (True, os.path.join(output_dir, "output.jpg"))
+        plt.imsave(os.path.join(output_dir, "output.jpg"), identified)
+        return (True, os.path.join(output_dir, "output.jpg"), idx)
     else:
-        return(False, test)
+        return(False, "none", -1)
