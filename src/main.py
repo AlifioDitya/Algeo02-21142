@@ -21,6 +21,7 @@ imagetest_filename = "No File Choosen"
 imagetest_result = "" 
 exec_time = "" 
 isCameraOpen = False
+isDataset = False
 WIDTH, HEIGHT = 1280, 720
 
 root = tk.Tk()
@@ -41,6 +42,7 @@ button_choose_h = PhotoImage(file = (os.path.join(ROOT_DIR, "assets/Button_Choos
 button_choose_c = PhotoImage(file = (os.path.join(ROOT_DIR, "assets/Button_ChooseFile_clicked.png")))
 button_run = PhotoImage(file = (os.path.join(ROOT_DIR, "assets/Button_RunResult.png")))
 button_run_c = PhotoImage(file = (os.path.join(ROOT_DIR, "assets/Button_RunResult_clicked.png")))
+button_run_d = PhotoImage(file = (os.path.join(ROOT_DIR, "assets/Button_RunResult_disabled.png")))
 button_camera = PhotoImage(file = (os.path.join(ROOT_DIR, "assets/camera.png")))
 button_camera_h = PhotoImage(file = (os.path.join(ROOT_DIR, "assets/camera_h.png")))
 img_none = ImageTk.PhotoImage(Image.open((os.path.join(ROOT_DIR, "assets/img_placeholder.png"))).resize((300,300)))
@@ -48,13 +50,16 @@ img_none = ImageTk.PhotoImage(Image.open((os.path.join(ROOT_DIR, "assets/img_pla
 # FUNCS
 def askopendataset():
     global imagetest_dir
-    global photo_test
+    global dataset_dir
+    global isDataset
+
     try:
         # Menginput file
-        dataset_dir = filedialog.askopenfilename(filetypes=[('Zip File', '*.zip')])
-        dataset_dir = os.path.basename(dataset_dir)
+        dataset_dir = filedialog.askopenfilename() # filetypes=[('Zip File', '*.zip')])
+        dataset_filename = os.path.basename(dataset_dir)
+        isDataset = True
         # Config File
-        maincanvas.itemconfig(dataset_text, text=dataset_dir)
+        maincanvas.itemconfig(dataset_text, text=dataset_filename)
         
     except AttributeError:
         pass
@@ -63,7 +68,7 @@ def askopenfile():
     global imagetest_dir
     global imagetest_filename
     global img_display
-    global photo_test
+
     try:
         # Menginput file
         imagetest_dir = filedialog.askopenfilename(filetypes=[('JPG File', '*.jpg')])
@@ -71,6 +76,7 @@ def askopenfile():
         imagetest_namefile = os.path.basename(imagetest_dir)
         print(imagetest_dir)
         # Config File
+        maincanvas.itemconfig(img_test, image=button_run)
         maincanvas.itemconfig(img_test, image=img_display)
         maincanvas.itemconfig(testfile_text, text=imagetest_namefile)
         
@@ -81,7 +87,6 @@ def pass_cam_data():
     global imagetest_dir
     global imagetest_filename
     global img_display
-    global photo_test
     try:
         # Menginput file
         imagetest_dir = "hasilWebcam.jpg"
@@ -95,23 +100,30 @@ def pass_cam_data():
     except AttributeError:
         pass
 
-def runresult(event):
+def runresult():
     global result_image
+    global imagetest_result
+    global imagetest_dir
+    global dataset_dir
+    global res_image
 
     maincanvas.itemconfig(result_button, image=button_run_c)
     isRecognized = False
 
-    # main algorithm
-    isRecognized, matrix_result = index(imagetest_dir, dataset_dir)
-    matrix_result = np.asarray(matrix_result)
-    res_face = Image.fromarray(matrix_result).resize((300,300))
-    res_image = ImageTk.PhotoImage(image=res_face)
-    
-    # Item Configs
-    if (isRecognized):
-        maincanvas.itemconfig(result_image, image=res_image)
+    if dataset_dir == "":
+        maincanvas.itemconfig(result_namefile, text="Tidak dapat teridentifikasi")
     else:
-        pass
+        # main algorithm
+        isRecognized, imageresult_dir = index(dataset_dir, imagetest_dir, True)
+        imagetest_result = os.path.basename(imageresult_dir)
+        res_image =  ImageTk.PhotoImage(Image.open(imageresult_dir).resize((300,300)))
+        
+        # Item Configs
+        if (isRecognized):
+            maincanvas.itemconfig(result_image, image=res_image)
+            maincanvas.itemconfig(testfile_text, text=imagetest_result)
+        else:
+            maincanvas.itemconfig(result_namefile, text="Tidak dapat teridentifikasi")
 
 # DECORATION
 def onhover_choosefile(event):
@@ -121,6 +133,7 @@ def nonhover_choosefile(event):
 def onclick_choosefile(event):
     maincanvas.itemconfig(testfile_button, image=button_choose_c)
     askopenfile()
+
 def onhover_choosedataset(event):
     maincanvas.itemconfig(dataset_button, image=button_choose)
 def nonhover_choosedataset(event):
@@ -128,6 +141,15 @@ def nonhover_choosedataset(event):
 def onclick_choosedataset(event):
     maincanvas.itemconfig(dataset_button, image=button_choose_c)
     askopendataset()
+
+def onclick_result(event):
+    print(isDataset)
+
+    if isDataset:
+        runresult()
+    else:
+        maincanvas.itemconfig(result_namefile, text="Tidak ada dataset yang terdeteksi!")
+        print("Tidak ada dataset yang terdeteksi!")
 
 # Bonus
 def onhover_cam(event):
@@ -139,9 +161,6 @@ def onclick_cam(event):
     isCameraOpen = True
     webcamFunc()
     pass_cam_data()
-
-
-
 
 
 # MAIN
@@ -169,7 +188,7 @@ testfile_text = maincanvas.create_text(103, 490, anchor = W, text=imagetest_file
 camera_button = maincanvas.create_image(350, 419, image = button_camera, anchor = "nw")
 
 # Run Result
-result_button = maincanvas.create_image(100, 552, image = button_run, anchor = "nw")
+result_button = maincanvas.create_image(100, 552, image = button_run_d, anchor = "nw")
 
 # Hasil Result
 maincanvas.create_text(107, 630, anchor = W, text="Result: ", font=(varfont, 18))
@@ -188,7 +207,7 @@ maincanvas.tag_bind(camera_button, '<Enter>', onhover_cam)
 maincanvas.tag_bind(camera_button, '<Leave>', nonhover_cam)
 maincanvas.tag_bind(camera_button, '<ButtonPress>', onclick_cam)
 
-maincanvas.tag_bind(result_button, '<ButtonPress>', runresult)
+maincanvas.tag_bind(result_button, '<ButtonPress>', onclick_result)
 
 # DISPLAY
 imagetest_dir = img_none
@@ -203,7 +222,6 @@ res_image = img_none
 maincanvas.create_text(930, 223, anchor = W, text="Closest Result", font=(varfont, 20))
 result_image = maincanvas.create_image(850, 250, image = res_image, anchor = "nw")
 
-# Olah tuple lu..
 
 
 root.mainloop()  
