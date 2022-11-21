@@ -114,7 +114,7 @@ def runresult():
         maincanvas.itemconfig(result_namefile, text="Tidak dapat teridentifikasi")
     else:
         # main algorithm
-        isRecognized, imageresult_dir = index(dataset_dir, imagetest_dir)
+        isRecognized, imageresult_dir = index(dataset_dir, imagetest_dir, True)
         imagetest_result = os.path.basename(imageresult_dir)
         res_image =  ImageTk.PhotoImage(Image.open(imageresult_dir).resize((300,300)))
         
