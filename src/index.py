@@ -5,12 +5,13 @@ import matplotlib.pyplot as plt
 import os
 import numpy as np
 import cv2
+import time
 
 def index(dataset, isDatasetZip=True):
 # Face recognition algorithm
 # Extracts dataset if dataset is a zip file
 # Otherwise, dataset is a folder
-
+    
     if isDatasetZip:
         fixBadZipfile(dataset)
         extract(dataset)
@@ -35,7 +36,7 @@ def recognize(test, training_set, training_weight, eigen_face):
         output_dir = os.path.join(ROOT_DIR, "../out/output")
         if not os.path.exists(output_dir):
             os.mkdir(output_dir)
-        plt.imsave(os.path.join(output_dir, "output.jpg"), identified)
+        plt.imsave(os.path.join(output_dir, "output.jpg"), identified, cmap="gray")
         return (True, os.path.join(output_dir, "output.jpg"), idx)
     else:
         return(False, "none", -1)
