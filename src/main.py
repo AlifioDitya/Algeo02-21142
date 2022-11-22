@@ -263,9 +263,11 @@ img_test = maincanvas.create_image(513, 250, image = imagetest_dir, anchor = "nw
 
 maincanvas.create_text(513, 615, anchor = W, text="Execution Time:", font=(varfont, 22))
 elapsed = maincanvas.create_text(750, 615, anchor = W, text=exec_time, font=(varfont, 22), fill="gray")
+maincanvas.create_text(850, 615, anchor = W, text="s ", font=(varfont, 22))
 
-maincanvas.create_text(513, 650, anchor = W, text="Accuracy: ", font=(varfont, 22))
+maincanvas.create_text(513, 650, anchor = W, text="Similarity: ", font=(varfont, 22))
 accuracy_text = maincanvas.create_text(750, 650, anchor = W, text=acc_res, font=(varfont, 22), fill="gray")
+maincanvas.create_text(850, 650, anchor = W, text="%", font=(varfont, 22))
 
 # RESULT
 res_image = img_none
