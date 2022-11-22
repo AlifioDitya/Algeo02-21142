@@ -31,7 +31,9 @@ Tugas Besar 2 Aljabar Linear dan Geometri ini merupakan implementasi vektor eige
 
 5. Input foto untuk diujikan
 
-6. Klik `Run Result!` untuk mendapatkan hasil prediksi
+6. Jika input dilakukan melalui kamera, pastikan wajah berada di tengah. Klik `C` untuk mengambil foto.
+
+7. Klik `Run Result!` untuk mendapatkan hasil prediksi
 
 ## Screenshot Program
 ![ss_GUI_Algeo](https://user-images.githubusercontent.com/64979714/203269041-7099f18f-4be1-4286-a01e-193b0908e2b8.png)
