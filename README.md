@@ -35,7 +35,8 @@ Tugas Besar 2 Aljabar Linear dan Geometri ini merupakan implementasi vektor eige
 
 ## Screenshot Program
 ![ss_GUI_Algeo](https://user-images.githubusercontent.com/64979714/203269041-7099f18f-4be1-4286-a01e-193b0908e2b8.png)
-![test2](https://user-images.githubusercontent.com/64979714/203269193-195064ba-c0b9-4c9f-9eec-08f233698bf9.png)
+
+![testfio](https://user-images.githubusercontent.com/64979714/203347874-8ebd8234-59ea-4100-8cd8-85c3586f01df.jpg)
 ![test1](https://user-images.githubusercontent.com/64979714/203269245-57db8d29-0b09-45fc-b7b2-31afa0033070.png)
 ![test3](https://user-images.githubusercontent.com/64979714/203269303-c92c4db1-3b22-4d8d-b889-7de72f67c062.png)
 
