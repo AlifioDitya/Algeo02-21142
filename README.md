@@ -38,5 +38,5 @@ Tugas Besar 2 Aljabar Linear dan Geometri ini merupakan implementasi vektor eige
 
 
 ## Made With
-* [![Python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
-* [![Jupyter](https://img.shields.io/badge/Made%20with-Jupyter-orange?style=for-the-badge&logo=Jupyter)](https://jupyter.org/try)
+* [![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)](https://www.python.org/)
+* [![Jupyter Notebook](https://img.shields.io/badge/jupyter-%23FA0F00.svg?style=for-the-badge&logo=jupyter&logoColor=white)](https://jupyter.org/try)
