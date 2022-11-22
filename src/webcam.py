@@ -3,7 +3,8 @@ from time import sleep
 import os
 from PIL import Image
 import numpy as np
-
+import logging as log
+import datetime as dt
 
 def webcamFunc():
 # inspo: https://pythonprogramming.net/haar-cascade-face-eye-detection-python-opencv-tutorial/
@@ -11,7 +12,9 @@ def webcamFunc():
     # cascPath = "haarcascade_frontalface_default.xml"
     faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
     ROOT_DIR = os.path.realpath(os.path.join(os.path.dirname(__file__), '..'))
+    log.basicConfig(filename='webcam.log',level=log.INFO)
 
+    varLog = 0
 
     while True:
         if not webCam.isOpened():
@@ -35,6 +38,10 @@ def webcamFunc():
         # kotak ijo
         for (x, y, w, h) in face:
             cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
+        if varLog != len(face):
+            varLog = len(face)
+            log.info("face: "+str(len(face))+" at "+str(dt.datetime.now()))
 
 
         # Display the resulting frame
