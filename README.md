@@ -25,7 +25,7 @@ Tugas Besar 2 Aljabar Linear dan Geometri ini merupakan implementasi vektor eige
     ```
 3. Jalankan program
     ```bash
-    python src/main.py
+    $ python src/main.py
     ```
 4. Input dataset pada program
 
