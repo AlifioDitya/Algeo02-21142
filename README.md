@@ -12,7 +12,7 @@ Tugas Besar Aljabar Linier dan Geometri 2: Face Recognition
 * [Screenshot Program](#screenshot-program)
 
 ## Penjelasan Ringkas Program
-Tugas Besar 2 Aljabar Linear dan Geometri ini merupakan implementasi eigenface melalui vektor eigen dan nilai eigen pada program face recognition yang berbahasa pemrograman python. Dalam mendeteksi wajah, pengguna dapat memasukkan foto serta menggunakan camera secara realtime pada GUI yang telah disediakan.
+Tugas Besar 2 Aljabar Linear dan Geometri ini merupakan implementasi vektor eigen dan nilai eigen untuk program *face recognition* dengan teknik *eigenface* menggunakan bahasa pemrograman Python 3. Dalam mendeteksi wajah, pengguna dapat memasukkan foto dari file atau menggunakan kamera secara realtime pada GUI yang telah disediakan.
 
 ## Cara Menjalankan Program
 1. Clone repository
