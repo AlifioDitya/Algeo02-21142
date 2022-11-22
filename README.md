@@ -34,10 +34,10 @@ Tugas Besar 2 Aljabar Linear dan Geometri ini merupakan implementasi vektor eige
 6. Klik `Run Result!` untuk mendapatkan hasil prediksi
 
 ## Screenshot Program
-![Tampilan Program](./assets/ss_GUI_Algeo.png)
-![Test1](./src/assets/test2.png =500x250)
-![Test2](./src/assets/test1.png =500x250)
-![Test3](./src/assets/test3.png =500x250)
+![ss_GUI_Algeo](https://user-images.githubusercontent.com/64979714/203269041-7099f18f-4be1-4286-a01e-193b0908e2b8.png)
+![test2](https://user-images.githubusercontent.com/64979714/203269193-195064ba-c0b9-4c9f-9eec-08f233698bf9.png)
+![test1](https://user-images.githubusercontent.com/64979714/203269245-57db8d29-0b09-45fc-b7b2-31afa0033070.png)
+![test3](https://user-images.githubusercontent.com/64979714/203269303-c92c4db1-3b22-4d8d-b889-7de72f67c062.png)
 
 ## Made With
 * [![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)](https://www.python.org/)
