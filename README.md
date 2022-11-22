@@ -19,7 +19,7 @@ Tugas Besar 2 Aljabar Linear dan Geometri ini merupakan implementasi vektor eige
     ```bash
     $ git clone https://github.com/AlifioDitya/Algeo02-21142.git
     ```
-2. Masuk kedalam folder project
+2. Masuk ke dalam folder project
     ```bash
     $ cd Algeo02-21142
     ```
@@ -31,7 +31,11 @@ Tugas Besar 2 Aljabar Linear dan Geometri ini merupakan implementasi vektor eige
 
 5. Input foto untuk diujikan
 
-6. Klik "Run Result!" untuk mendapatkan hasil prediksi
+6. Klik `Run Result!` untuk mendapatkan hasil prediksi
 
 ## Screenshot Program
 
+
+
+## Built With
+[![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
