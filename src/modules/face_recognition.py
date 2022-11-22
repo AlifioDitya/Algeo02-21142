@@ -35,3 +35,6 @@ def euc_distance(v1, v2):
     diff = v1 - v2
     product = np.dot(diff.T, diff)
     return np.sqrt(product)
+
+def cosine_similarity(v1, v2):
+    return round(((np.dot(v1, v2)/(np.linalg.norm(v1)*np.linalg.norm(v2)))), 2);
