@@ -40,21 +40,26 @@ def webcamFunc():
         # Display the resulting frame
         cv2.imshow('WebCam', frame)
 
-        # click buat moto
-        if cv2.waitKey(1) & 0xFF == ord('c'): 
-            check, frame = webCam.read()
-            cv2.imshow("Capturing...", frame)
-            cv2.imwrite(filename='hasilWebcam.jpg', img=frame)
-            webCam.release()
-            img_new = cv2.imread('hasilWebcam.jpg', cv2.IMREAD_GRAYSCALE)
-            img_new = cv2.imshow("Captured Image", img_new)
-            cv2.waitKey(1650)
-            print("Image Saved")
-            cv2.destroyAllWindows()
-            break
+        # ALTERNATIF 2: auto capture
+        framerate = webCam.get(5)
+        check, frame = webCam.read()   
+        cv2.imwrite(filename='hasilWebcam.jpg', img=frame)     
+        
+        # ALTERNATIF 1: click buat moto
+        #if cv2.waitKey(1) & 0xFF == ord('c'): 
+            #check, frame = webCam.read()
+            #cv2.imshow("Capturing...", frame)
+            #cv2.imwrite(filename='hasilWebcam.jpg', img=frame)
+            #webCam.release()
+            #img_new = cv2.imread('hasilWebcam.jpg', cv2.IMREAD_GRAYSCALE)
+            #img_new = cv2.imshow("Captured Image", img_new)
+            #cv2.waitKey(1650)
+            #print("Image Saved")
+            #cv2.destroyAllWindows()
+            #break
     
         # click buat exit
-        elif cv2.waitKey(1) & 0xFF == ord('e'):
+        if cv2.waitKey(1) & 0xFF == ord('e'):
             print("Turning off camera.")
             webCam.release()
             print("Camera off.")
