@@ -21,6 +21,7 @@ imagetest_dir = ""
 imagetest_filename = "No File Choosen"  
 imagetest_result = "" 
 exec_time = "" 
+acc_res =""
 isCameraOpen = False
 isDataset = False
 isDatasetCached = False
@@ -60,6 +61,8 @@ def askopendataset():
     global eigen_face
 
     global exec_time
+    global acc_res
+    acc_res = ""
     exec_time = ""
 
     try:
@@ -126,6 +129,9 @@ def runresult():
     global training_set
     global training_weight
     global eigen_face
+    global acc_res
+
+    acc_res = ""
 
     start_time =time.time()
 
@@ -144,7 +150,7 @@ def runresult():
         # main algorithm
         # isRecognized, imageresult_dir, idx_filename = index(dataset_dir, imagetest_dir, True)
         # print( int(idx_filename[0]))
-        isRecognized, imageresult_dir, idx_filename = recognize(imagetest_dir, training_set, training_weight, eigen_face)
+        isRecognized, imageresult_dir, idx_filename, accuracy = recognize(imagetest_dir, training_set, training_weight, eigen_face)
         list_of_files = list_files(os.path.join(ROOT_DIR, "../out/extracted"), ".jpg")
         res_image =  ImageTk.PhotoImage(Image.open(imageresult_dir).resize((300,300)))
 
@@ -154,10 +160,12 @@ def runresult():
         # Item Configs
         if (isRecognized):
             idx = int(idx_filename[0])
+            acc_res = accuracy
             imagetest_result = os.path.basename(list_of_files[idx])
             maincanvas.itemconfig(result_image, image=res_image)
             maincanvas.itemconfig(result_namefile, text=imagetest_result)
             maincanvas.itemconfig(elapsed, text=exec_time)
+            maincanvas.itemconfig(accuracy_text, text=acc_res)
         else:
             maincanvas.itemconfig(result_namefile, text="Tidak dapat teridentifikasi")
             maincanvas.itemconfig(elapsed, text=exec_time)
@@ -255,6 +263,9 @@ img_test = maincanvas.create_image(513, 250, image = imagetest_dir, anchor = "nw
 
 maincanvas.create_text(513, 615, anchor = W, text="Execution Time:", font=(varfont, 22))
 elapsed = maincanvas.create_text(750, 615, anchor = W, text=exec_time, font=(varfont, 22), fill="gray")
+
+maincanvas.create_text(513, 650, anchor = W, text="Accuracy: ", font=(varfont, 22))
+accuracy_text = maincanvas.create_text(750, 650, anchor = W, text=acc_res, font=(varfont, 22), fill="gray")
 
 # RESULT
 res_image = img_none
